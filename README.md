@@ -1,4 +1,4 @@
-# Advanced SQL Project
+## Advanced SQL Project
 
 This repository demonstrates **advanced SQL concepts** using a realistic business scenario with employees, departments, sales, bonuses, and projects.  
 
@@ -11,7 +11,7 @@ It is designed to showcase **“Продвинутый” SQL skills**, includin
 - **Conditional logic (CASE statements)**
 - **Cross-database adaptability** (MySQL, PostgreSQL, SQLite)
 
-## 📝 Features
+### 📝 Features
 
 - Common Table Expressions (CTEs)
 - Window functions (RANK, SUM OVER)
@@ -20,13 +20,11 @@ It is designed to showcase **“Продвинутый” SQL skills**, includin
 
 ---------
 
-# Deep Conceptual Mapping: SQL Principles → OOP Mental Models
+## Deep Conceptual Mapping: SQL Principles → OOP Mental Models
 
 This document provides a **deep, principle-level explanation** of how advanced SQL constructs map to Object-Oriented Programming (OOP) concepts. It is intended to demonstrate *how to think* about SQL, not just how to write it.
 
----
-
-## 1. Table Aliases
+### 1. Table Aliases
 
 | SQL Element             | OOP Analogy                     | Deep Explanation                                                                                                                                              |
 | ----------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -37,9 +35,9 @@ This document provides a **deep, principle-level explanation** of how advanced S
 
 **Key Insight:** Aliases are *not* operators or methods; they are scoped references that enable expressive navigation of data.
 
----
+------------
 
-## 2. Dot Notation (`.`)
+### 2. Dot Notation (`.`)
 
 | SQL Syntax              | OOP Analogy            | Deep Explanation                                                       |
 | ----------------------- | ---------------------- | ---------------------------------------------------------------------- |
@@ -49,9 +47,9 @@ This document provides a **deep, principle-level explanation** of how advanced S
 
 **Key Insight:** SQL dot notation mirrors object property access, not method invocation.
 
----
+------------
 
-## 3. JOIN Operations
+### 3. JOIN Operations
 
 | SQL Construct  | OOP Analogy           | Deep Explanation                                                      |
 | -------------- | --------------------- | --------------------------------------------------------------------- |
@@ -61,9 +59,9 @@ This document provides a **deep, principle-level explanation** of how advanced S
 
 **Key Insight:** JOINs define object graph traversal rules.
 
----
+------------
 
-## 4. GROUP BY
+### 4. GROUP BY
 
 | SQL Construct               | OOP Analogy        | Deep Explanation                                                  |
 | --------------------------- | ------------------ | ----------------------------------------------------------------- |
@@ -72,9 +70,9 @@ This document provides a **deep, principle-level explanation** of how advanced S
 
 **Key Insight:** GROUP BY introduces an implicit iteration boundary, similar to `for-each` loops.
 
----
+------------
 
-## 5. Aggregate Functions
+### 5. Aggregate Functions
 
 | SQL Function    | OOP Analogy          | Deep Explanation                                        |
 | --------------- | -------------------- | ------------------------------------------------------- |
@@ -84,9 +82,9 @@ This document provides a **deep, principle-level explanation** of how advanced S
 
 **Key Insight:** Aggregates collapse collections; window functions do not.
 
----
+------------
 
-## 6. Common Table Expressions (CTEs)
+### 6. Common Table Expressions (CTEs)
 
 | SQL Construct         | OOP Analogy                   | Deep Explanation                                          |
 | --------------------- | ----------------------------- | --------------------------------------------------------- |
@@ -95,9 +93,9 @@ This document provides a **deep, principle-level explanation** of how advanced S
 
 **Key Insight:** CTEs resemble functional programming pipelines more than procedural code.
 
----
+------------
 
-## 7. Window Functions
+### 7. Window Functions
 
 | SQL Construct       | OOP Analogy                 | Deep Explanation                                        |
 | ------------------- | --------------------------- | ------------------------------------------------------- |
@@ -106,18 +104,18 @@ This document provides a **deep, principle-level explanation** of how advanced S
 
 **Key Insight:** Window functions preserve row identity while adding derived context.
 
----
+------------
 
-## 8. CASE Expressions
+### 8. CASE Expressions
 
 | SQL Construct                         | OOP Analogy         | Deep Explanation                                         |
 | ------------------------------------- | ------------------- | -------------------------------------------------------- |
 | `CASE WHEN ... THEN ... ELSE ... END` | Conditional logic   | Equivalent to `if / else` branching at the object level. |
 | Derived labels                        | Computed properties | Adds semantic meaning without changing underlying data.  |
 
----
+------------
 
-## 9. Final SELECT
+### 9. Final SELECT
 
 | SQL Construct      | OOP Analogy        | Deep Explanation                                |
 | ------------------ | ------------------ | ----------------------------------------------- |
@@ -125,7 +123,7 @@ This document provides a **deep, principle-level explanation** of how advanced S
 | Column expressions | Getter methods     | Derived values computed at read time.           |
 | `ORDER BY`         | Sorting collection | Orders objects for presentation or consumption. |
 
----
+------------
 
 ## Conceptual Summary
 
