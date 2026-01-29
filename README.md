@@ -13,17 +13,10 @@ It is designed to showcase **“Продвинутый” SQL skills**, includin
 
 ## 📝 Features
 
-1. **Employee Sales Analysis**  
-   - Calculate total sales per employee  
-   - Include bonuses and salary to compute total compensation
-
-2. **Department Rankings**  
-   - Rank employees by total compensation using `RANK() OVER (PARTITION BY ...)`  
-   - Identify top departments based on total sales
-
-3. **Cross-DB Compatibility**  
-   - Each database has its own script optimized for dialect-specific syntax  
-   - Shows ability to adapt advanced SQL logic to multiple engines
+- Common Table Expressions (CTEs)
+- Window functions (RANK, SUM OVER)
+- Nested queries and aggregates
+- Cross-database scripts: MySQL, PostgreSQL, SQLite
 
 ---------
 
