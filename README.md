@@ -20,56 +20,110 @@ It is designed to showcase **“Продвинутый” SQL skills**, includin
 
 ---------
 
-# Full Comprehensive SQL → OOP Analogy 
+# Deep Conceptual Mapping: SQL Principles → OOP Mental Models
 
-This document explains **every important SQL concept used in the project** and maps it to an **Object-Oriented Programming (OOP) analogy**, with a clear explanation for each mapping.
+This document provides a **deep, principle-level explanation** of how advanced SQL constructs map to Object-Oriented Programming (OOP) concepts. It is intended to demonstrate *how to think* about SQL, not just how to write it.
 
+---
 
-| SQL Concept                                               | OOP Analogy                       | Explanation                                                            |
-| --------------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------- |
-| `CREATE DATABASE company_db`                              | Application / Project namespace   | Acts as the top-level container that holds all domain models and logic |
-| `company_db`                                              | Project / Module                  | Logical scope where all classes live                                   |
-| `employees` table                                         | Class `Employee`                  | Table defines the structure (schema) of Employee objects               |
-| `departments` table                                       | Class `Department`                | Defines Department objects                                             |
-| `sales` table                                             | Class `Sale`                      | Represents transactional objects linked to employees                   |
-| `bonuses` table                                           | Class `Bonus`                     | Represents bonus reward objects                                        |
-| Row in a table                                            | Object instance                   | Each row corresponds to one instantiated object                        |
-| `employee_id`                                             | Object unique identifier          | Primary key, equivalent to an `id` field in a class                    |
-| `department_id`                                           | Object reference                  | Foreign key linking one object to another                              |
-| `employees e`                                             | Object reference (`Employee e`)   | Alias works like a local variable pointing to an object                |
-| `sales s`                                                 | Object reference (`Sale s`)       | Alias referencing Sale objects                                         |
-| `bonuses b`                                               | Object reference (`Bonus b`)      | Alias referencing Bonus objects                                        |
-| `departments d`                                           | Object reference (`Department d`) | Alias referencing Department objects                                   |
-| `e.employee_id`                                           | Property access                   | Accessing a field on an object using dot notation                      |
-| `e.first_name`                                            | Property access                   | Read-only access to object attribute                                   |
-| `e.salary`                                                | Property access                   | Access numeric attribute used in business logic                        |
-| `LEFT JOIN sales s ON e.employee_id = s.employee_id`      | One-to-many relationship          | Attach multiple Sale objects to one Employee                           |
-| `LEFT JOIN bonuses b ON e.employee_id = b.employee_id`    | One-to-many relationship          | Attach multiple Bonus objects to one Employee                          |
-| `JOIN departments d ON e.department_id = d.department_id` | Many-to-one relationship          | Employee references a single Department                                |
-| `SUM(s.sale_amount)`                                      | Method on collection              | Aggregates a list of Sale objects into a single value                  |
-| `SUM(b.bonus_amount)`                                     | Method on collection              | Aggregates Bonus values                                                |
-| `COALESCE(x, 0)`                                          | Null-safe default                 | Ensures a value exists even if collection is empty                     |
-| `GROUP BY e.employee_id`                                  | Loop over objects                 | Defines iteration boundary for aggregation                             |
-| `WITH employee_sales AS (...)`                            | Temporary computed class          | Creates an immutable derived dataset                                   |
-| `employee_sales es`                                       | Derived object                    | Object holding precomputed sales per employee                          |
-| `WITH employee_bonuses AS (...)`                          | Temporary computed class          | Precomputes bonus aggregation                                          |
-| `employee_bonuses eb`                                     | Derived object                    | Object holding precomputed bonuses                                     |
-| `WITH employee_compensation AS (...)`                     | Business-domain object            | Combines multiple attributes into one logical model                    |
-| `(salary + sales + bonus)`                                | Business logic method             | Equivalent to `calculateTotalCompensation()`                           |
-| `employee_compensation ec`                                | Computed object                   | Holds calculated business values                                       |
-| `WITH department_ranking AS (...)`                        | Department-level view model       | Represents department-scoped computed state                            |
-| `department_ranking dr`                                   | ViewModel / DTO                   | Object designed for presentation/output                                |
-| `RANK() OVER (PARTITION BY department_id ...)`            | Ranking method                    | Orders employees within department context                             |
-| `SUM(total_sales) OVER (PARTITION BY department_id)`      | Department method                 | Calculates department-wide totals                                      |
-| `WITH top_department AS (...)`                            | Global computed object            | Determines best-performing department                                  |
-| `top_department td`                                       | Singleton-like object             | One shared object accessible everywhere                                |
-| `CROSS JOIN top_department td`                            | Global context injection          | Makes global data available to all rows                                |
-| `CASE WHEN ... THEN ... ELSE ... END`                     | Conditional logic                 | Equivalent to `if / else` statements                                   |
-| `department_status`                                       | Derived attribute                 | Computed property based on condition                                   |
-| `CONCAT(first_name, last_name)`                           | Getter method                     | Equivalent to `getFullName()`                                          |
-| `WHERE dr.comp_rank <= 2`                                 | Business rule filter              | Applies constraints to object selection                                |
-| Final `SELECT`                                            | Output DTO                        | Defines final shape of returned data                                   |
-| `ORDER BY department_id, comp_rank`                       | Sorting logic                     | Orders objects for presentation                                        |
+## 1. Table Aliases
+
+| SQL Element             | OOP Analogy                     | Deep Explanation                                                                                                                                              |
+| ----------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `employees e`           | Object reference (`Employee e`) | An alias behaves like a local variable referencing an object. It does not create a new object; it simply provides a readable handle within the current scope. |
+| `sales s`               | Object reference (`Sale s`)     | Represents a reference to related objects used during relationship traversal (joins).                                                                         |
+| `department_ranking dr` | ViewModel reference             | Alias to a derived object designed for output rather than persistence.                                                                                        |
+| `top_department td`     | Singleton-like reference        | Represents a globally computed object shared across all result rows.                                                                                          |
+
+**Key Insight:** Aliases are *not* operators or methods; they are scoped references that enable expressive navigation of data.
+
+---
+
+## 2. Dot Notation (`.`)
+
+| SQL Syntax              | OOP Analogy            | Deep Explanation                                                       |
+| ----------------------- | ---------------------- | ---------------------------------------------------------------------- |
+| `e.employee_id`         | `e.employeeId`         | Dot notation represents property access on an object reference.        |
+| `s.sale_amount`         | `s.amount`             | Accessing attributes of related objects after relationship resolution. |
+| `dr.total_compensation` | `dr.totalCompensation` | Accessing computed (derived) properties.                               |
+
+**Key Insight:** SQL dot notation mirrors object property access, not method invocation.
+
+---
+
+## 3. JOIN Operations
+
+| SQL Construct  | OOP Analogy           | Deep Explanation                                                      |
+| -------------- | --------------------- | --------------------------------------------------------------------- |
+| `LEFT JOIN`    | Optional association  | Preserves the parent object even when no related child objects exist. |
+| `JOIN` (INNER) | Mandatory association | Parent object exists only when relationship exists.                   |
+| `CROSS JOIN`   | Context injection     | Injects a global or shared object into all object instances.          |
+
+**Key Insight:** JOINs define object graph traversal rules.
+
+---
+
+## 4. GROUP BY
+
+| SQL Construct               | OOP Analogy        | Deep Explanation                                                  |
+| --------------------------- | ------------------ | ----------------------------------------------------------------- |
+| `GROUP BY e.employee_id`    | Implicit loop      | SQL performs an implicit iteration over unique object identities. |
+| Multiple `GROUP BY` columns | Composite identity | Defines uniqueness across multiple attributes.                    |
+
+**Key Insight:** GROUP BY introduces an implicit iteration boundary, similar to `for-each` loops.
+
+---
+
+## 5. Aggregate Functions
+
+| SQL Function    | OOP Analogy          | Deep Explanation                                        |
+| --------------- | -------------------- | ------------------------------------------------------- |
+| `SUM()`         | Reduce operation     | Combines a collection of values into a single result.   |
+| `MAX()`         | Comparator reduction | Selects the highest value in a collection.              |
+| `COALESCE(x,0)` | Null-safe fallback   | Ensures safe default values when collections are empty. |
+
+**Key Insight:** Aggregates collapse collections; window functions do not.
+
+---
+
+## 6. Common Table Expressions (CTEs)
+
+| SQL Construct         | OOP Analogy                   | Deep Explanation                                          |
+| --------------------- | ----------------------------- | --------------------------------------------------------- |
+| `WITH ... AS (...)`   | Immutable intermediate object | Represents a pure function result that cannot be mutated. |
+| Multiple chained CTEs | Transformation pipeline       | Sequential functional transformations of data.            |
+
+**Key Insight:** CTEs resemble functional programming pipelines more than procedural code.
+
+---
+
+## 7. Window Functions
+
+| SQL Construct       | OOP Analogy                 | Deep Explanation                                        |
+| ------------------- | --------------------------- | ------------------------------------------------------- |
+| `RANK() OVER (...)` | Method on grouped objects   | Computes relative position without collapsing identity. |
+| `SUM() OVER (...)`  | Non-destructive aggregation | Computes totals while keeping each object intact.       |
+
+**Key Insight:** Window functions preserve row identity while adding derived context.
+
+---
+
+## 8. CASE Expressions
+
+| SQL Construct                         | OOP Analogy         | Deep Explanation                                         |
+| ------------------------------------- | ------------------- | -------------------------------------------------------- |
+| `CASE WHEN ... THEN ... ELSE ... END` | Conditional logic   | Equivalent to `if / else` branching at the object level. |
+| Derived labels                        | Computed properties | Adds semantic meaning without changing underlying data.  |
+
+---
+
+## 9. Final SELECT
+
+| SQL Construct      | OOP Analogy        | Deep Explanation                                |
+| ------------------ | ------------------ | ----------------------------------------------- |
+| Final `SELECT`     | DTO / ViewModel    | Defines the output contract of the query.       |
+| Column expressions | Getter methods     | Derived values computed at read time.           |
+| `ORDER BY`         | Sorting collection | Orders objects for presentation or consumption. |
 
 ---
 
