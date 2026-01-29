@@ -20,7 +20,7 @@ It is designed to showcase **“Продвинутый” SQL skills**, includin
 
 ---------
 
-# Full SQL → OOP Analogy (Detailed with Explanations)
+# Full Comprehensive SQL → OOP Analogy (Detailed with Explanations)
 
 This document explains **every important SQL concept used in the project** and maps it to an **Object-Oriented Programming (OOP) analogy**, with a clear explanation for each mapping.
 
