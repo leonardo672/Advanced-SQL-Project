@@ -146,4 +146,5 @@ The diagram below illustrates how base tables, Common Table Expressions (CTEs),
 and window functions interact to produce the final analytical result.
 It combines traditional ER relationships with SQL data flow dependencies.
 
-<img width="1195" height="1814" alt="db-company-flow1" src="https://github.com/user-attachments/assets/e7b55dd1-a3e7-4caf-89de-c391bf2ce0ef" />
+<img width="1195" height="1814" alt="db-company-flow2" src="https://github.com/user-attachments/assets/823eeee8-670c-4d84-b076-74dce177ae43" />
+
