@@ -1,0 +1,141 @@
+@startuml
+title Company DB - Employee Compensation Query (Hybrid ER + Flow, Clean Colors)
+
+' =========================
+' Tables (Base Data) - Bright Blue
+' =========================
+package "Tables (Base Data)" {
+    entity "employees" as e #87CEFA {
+        * employee_id : PK
+        --
+        first_name
+        last_name
+        department_id : FK
+        hire_date
+        salary
+    }
+
+    entity "departments" as d #87CEFA {
+        * department_id : PK
+        --
+        department_name
+    }
+
+    entity "sales" as s #87CEFA {
+        * sale_id : PK
+        --
+        employee_id : FK
+        sale_date
+        sale_amount
+    }
+
+    entity "bonuses" as b #87CEFA {
+        * bonus_id : PK
+        --
+        employee_id : FK
+        bonus_date
+        bonus_amount
+    }
+
+    entity "projects" as p #87CEFA {
+        * project_id : PK
+        --
+        project_name
+        department_id : FK
+        start_date
+        end_date
+    }
+}
+
+' =========================
+' CTEs / Aggregations - Medium Blue
+' =========================
+package "CTEs / Aggregations" {
+    entity "employee_sales" as es #ADD8E6 {
+        employee_id
+        first_name
+        last_name
+        department_id
+        salary
+        total_sales = COALESCE(SUM(s.sale_amount),0)
+    }
+
+    entity "employee_bonuses" as eb #ADD8E6 {
+        employee_id
+        total_bonus = COALESCE(SUM(b.bonus_amount),0)
+    }
+
+    entity "employee_compensation" as ec #B0E0E6 {
+        employee_id
+        first_name
+        last_name
+        department_id
+        salary
+        total_sales
+        total_bonus
+        total_compensation = salary + total_sales + total_bonus
+    }
+
+    entity "department_ranking" as dr #87CEEB {
+        employee_id
+        first_name
+        last_name
+        department_id
+        salary
+        total_sales
+        total_bonus
+        total_compensation
+        department_name
+        comp_rank = RANK() OVER(PARTITION BY department_id ORDER BY total_compensation DESC)
+        dept_total_sales = SUM(total_sales) OVER(PARTITION BY department_id)
+    }
+
+    entity "top_department" as td #87CEEB {
+        department_id
+        max_dept_sales = MAX(dept_total_sales)
+    }
+}
+
+' =========================
+' Final Output - Soft Navy
+' =========================
+entity "Final SELECT" as final #4682B4 {
+    employee_name = CONCAT(first_name,' ',last_name)
+    department_name
+    salary
+    total_sales
+    total_bonus
+    total_compensation
+    comp_rank
+    top_department_sales = td.max_dept_sales
+    department_status = CASE WHEN dr.department_id = td.department_id THEN 'Top Department' ELSE 'Other Department' END
+}
+
+' =========================
+' Table Relationships
+' =========================
+e ||--o{ s : "employee_id"
+e ||--o{ b : "employee_id"
+d ||--o{ e : "department_id"
+d ||--o{ p : "department_id"
+
+' =========================
+' Column / CTE Flow
+' =========================
+e --> es : "employee_id, first_name, last_name, department_id, salary"
+s --> es : "sale_amount -> total_sales"
+
+e --> eb : "employee_id"
+b --> eb : "bonus_amount -> total_bonus"
+
+es --> ec : "employee_id, first_name, last_name, department_id, salary, total_sales"
+eb --> ec : "employee_id, total_bonus"
+
+ec --> dr : "all columns"
+d --> dr : "department_name"
+
+dr --> td : "department_id, dept_total_sales"
+dr --> final : "all columns"
+td --> final : "max_dept_sales"
+
+@enduml

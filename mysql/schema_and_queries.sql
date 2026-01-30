@@ -113,7 +113,7 @@ WITH employee_sales AS (
         e.last_name,
         e.department_id,
         e.salary,
-        COALESCE(SUM(s.sale_amount),0) AS total_sales
+        COALESCE(SUM(s.sale_amount),0) AS total_sales -- Replaces NULL with a default value (like 0 for sums) -- 
     FROM employees e
     LEFT JOIN sales s ON e.employee_id = s.employee_id
     GROUP BY e.employee_id, e.first_name, e.last_name, e.department_id, e.salary
@@ -157,13 +157,13 @@ top_department AS (
         department_id,
         MAX(dept_total_sales) AS max_dept_sales
     FROM department_ranking
-    GROUP BY department_id
-    ORDER BY max_dept_sales DESC
-    LIMIT 1
+    GROUP BY department_id 
+    ORDER BY max_dept_sales DESC  -- descending order -- 
+    LIMIT 1 -- return only the single row with the highest max_dept_sales, i.e., the top-selling department. -- 
 )
 -- Final Select: Top 2 employees per department + department status
 SELECT
-    CONCAT(dr.first_name, ' ', dr.last_name) AS employee_name,
+    CONCAT(dr.first_name, ' ', dr.last_name) AS employee_name, -- CONCAT = joins (concatenates) strings together. -- 
     dr.department_name,
     dr.salary,
     dr.total_sales,
